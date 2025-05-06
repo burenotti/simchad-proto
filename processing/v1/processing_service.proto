@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package processing.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+service ProcessingService {
+  rpc Acquire(AcquireRequest) returns (AcquireResponse);
+  rpc Withdraw(WithdrawRequest) returns (WithdrawResponse);
+  rpc CreateInvoice(CreateInvoiceRequest) returns (CreateInvoiceResponse);
+  rpc GetInvoice(GetInvoiceRequest) returns (GetInvoiceResponse);
+  rpc CancelInvoice(CancelInvoiceRequest) returns (CancelInvoiceResponse);
+}
+
+message Money {
+  uint64 units = 1;
+  uint64 cents = 2;
+  string currency = 3;
+}
+
+message AcquireRequest {
+  string acquisition_id = 1 [(buf.validate.field).string.uuid = true];
+  string wallet_id = 2 [(buf.validate.field).string.uuid = true];
+  Money amount = 3;
+  string service = 4;
+  string reason = 5;
+  google.protobuf.Timestamp expires_at = 6;
+}
+
+message AcquireResponse {
+  string acquisition_id = 1 [(buf.validate.field).required = true];
+}
+
+message WithdrawRequest {
+  string withdraw_id = 1 [(buf.validate.field).string.uuid = true];
+  string acquisition_id = 2 [(buf.validate.field).string.uuid = true];
+  Money amount = 3;
+}
+
+message WithdrawResponse {
+  string withdraw_id = 1 [(buf.validate.field).required = true];
+}
+
+message CreateInvoiceRequest {
+  string invoice_id = 1;
+  string wallet_id = 2;
+  string method = 3;
+  string currency = 4;
+  sint64 amount = 5;
+}
+
+message CreateInvoiceResponse {}
+
+message GetInvoiceRequest {}
+
+message GetInvoiceResponse {}
+
+message CancelInvoiceRequest {}
+
+message CancelInvoiceResponse {}
