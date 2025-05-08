@@ -2,12 +2,13 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: v1/processing_service.proto
+// source: processing/v1/processing_service.proto
 
 package processingv1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
+	common "github.com/burenotti/simchad-proto/go/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -34,7 +35,7 @@ type Money struct {
 
 func (x *Money) Reset() {
 	*x = Money{}
-	mi := &file_v1_processing_service_proto_msgTypes[0]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -46,7 +47,7 @@ func (x *Money) String() string {
 func (*Money) ProtoMessage() {}
 
 func (x *Money) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[0]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +60,7 @@ func (x *Money) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Money.ProtoReflect.Descriptor instead.
 func (*Money) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{0}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Money) GetUnits() uint64 {
@@ -97,7 +98,7 @@ type AcquireRequest struct {
 
 func (x *AcquireRequest) Reset() {
 	*x = AcquireRequest{}
-	mi := &file_v1_processing_service_proto_msgTypes[1]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -109,7 +110,7 @@ func (x *AcquireRequest) String() string {
 func (*AcquireRequest) ProtoMessage() {}
 
 func (x *AcquireRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[1]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -122,7 +123,7 @@ func (x *AcquireRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireRequest.ProtoReflect.Descriptor instead.
 func (*AcquireRequest) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{1}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *AcquireRequest) GetAcquisitionId() string {
@@ -168,15 +169,19 @@ func (x *AcquireRequest) GetExpiresAt() *timestamppb.Timestamp {
 }
 
 type AcquireResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AcquisitionId string                 `protobuf:"bytes,1,opt,name=acquisition_id,json=acquisitionId,proto3" json:"acquisition_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Result:
+	//
+	//	*AcquireResponse_Data_
+	//	*AcquireResponse_Error
+	Result        isAcquireResponse_Result `protobuf_oneof:"result"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AcquireResponse) Reset() {
 	*x = AcquireResponse{}
-	mi := &file_v1_processing_service_proto_msgTypes[2]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -188,7 +193,7 @@ func (x *AcquireResponse) String() string {
 func (*AcquireResponse) ProtoMessage() {}
 
 func (x *AcquireResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[2]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -201,15 +206,49 @@ func (x *AcquireResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireResponse.ProtoReflect.Descriptor instead.
 func (*AcquireResponse) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{2}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *AcquireResponse) GetAcquisitionId() string {
+func (x *AcquireResponse) GetResult() isAcquireResponse_Result {
 	if x != nil {
-		return x.AcquisitionId
+		return x.Result
 	}
-	return ""
+	return nil
 }
+
+func (x *AcquireResponse) GetData() *AcquireResponse_Data {
+	if x != nil {
+		if x, ok := x.Result.(*AcquireResponse_Data_); ok {
+			return x.Data
+		}
+	}
+	return nil
+}
+
+func (x *AcquireResponse) GetError() *common.Error {
+	if x != nil {
+		if x, ok := x.Result.(*AcquireResponse_Error); ok {
+			return x.Error
+		}
+	}
+	return nil
+}
+
+type isAcquireResponse_Result interface {
+	isAcquireResponse_Result()
+}
+
+type AcquireResponse_Data_ struct {
+	Data *AcquireResponse_Data `protobuf:"bytes,1,opt,name=data,proto3,oneof"`
+}
+
+type AcquireResponse_Error struct {
+	Error *common.Error `protobuf:"bytes,2,opt,name=error,proto3,oneof"`
+}
+
+func (*AcquireResponse_Data_) isAcquireResponse_Result() {}
+
+func (*AcquireResponse_Error) isAcquireResponse_Result() {}
 
 type WithdrawRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -222,7 +261,7 @@ type WithdrawRequest struct {
 
 func (x *WithdrawRequest) Reset() {
 	*x = WithdrawRequest{}
-	mi := &file_v1_processing_service_proto_msgTypes[3]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -234,7 +273,7 @@ func (x *WithdrawRequest) String() string {
 func (*WithdrawRequest) ProtoMessage() {}
 
 func (x *WithdrawRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[3]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -247,7 +286,7 @@ func (x *WithdrawRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WithdrawRequest.ProtoReflect.Descriptor instead.
 func (*WithdrawRequest) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{3}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *WithdrawRequest) GetWithdrawId() string {
@@ -280,7 +319,7 @@ type WithdrawResponse struct {
 
 func (x *WithdrawResponse) Reset() {
 	*x = WithdrawResponse{}
-	mi := &file_v1_processing_service_proto_msgTypes[4]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -292,7 +331,7 @@ func (x *WithdrawResponse) String() string {
 func (*WithdrawResponse) ProtoMessage() {}
 
 func (x *WithdrawResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[4]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -305,7 +344,7 @@ func (x *WithdrawResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WithdrawResponse.ProtoReflect.Descriptor instead.
 func (*WithdrawResponse) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{4}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *WithdrawResponse) GetWithdrawId() string {
@@ -328,7 +367,7 @@ type CreateInvoiceRequest struct {
 
 func (x *CreateInvoiceRequest) Reset() {
 	*x = CreateInvoiceRequest{}
-	mi := &file_v1_processing_service_proto_msgTypes[5]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -340,7 +379,7 @@ func (x *CreateInvoiceRequest) String() string {
 func (*CreateInvoiceRequest) ProtoMessage() {}
 
 func (x *CreateInvoiceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[5]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -353,7 +392,7 @@ func (x *CreateInvoiceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateInvoiceRequest.ProtoReflect.Descriptor instead.
 func (*CreateInvoiceRequest) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{5}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateInvoiceRequest) GetInvoiceId() string {
@@ -399,7 +438,7 @@ type CreateInvoiceResponse struct {
 
 func (x *CreateInvoiceResponse) Reset() {
 	*x = CreateInvoiceResponse{}
-	mi := &file_v1_processing_service_proto_msgTypes[6]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -411,7 +450,7 @@ func (x *CreateInvoiceResponse) String() string {
 func (*CreateInvoiceResponse) ProtoMessage() {}
 
 func (x *CreateInvoiceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[6]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -424,7 +463,7 @@ func (x *CreateInvoiceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateInvoiceResponse.ProtoReflect.Descriptor instead.
 func (*CreateInvoiceResponse) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{6}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{6}
 }
 
 type GetInvoiceRequest struct {
@@ -435,7 +474,7 @@ type GetInvoiceRequest struct {
 
 func (x *GetInvoiceRequest) Reset() {
 	*x = GetInvoiceRequest{}
-	mi := &file_v1_processing_service_proto_msgTypes[7]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -447,7 +486,7 @@ func (x *GetInvoiceRequest) String() string {
 func (*GetInvoiceRequest) ProtoMessage() {}
 
 func (x *GetInvoiceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[7]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -460,7 +499,7 @@ func (x *GetInvoiceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetInvoiceRequest.ProtoReflect.Descriptor instead.
 func (*GetInvoiceRequest) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{7}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{7}
 }
 
 type GetInvoiceResponse struct {
@@ -471,7 +510,7 @@ type GetInvoiceResponse struct {
 
 func (x *GetInvoiceResponse) Reset() {
 	*x = GetInvoiceResponse{}
-	mi := &file_v1_processing_service_proto_msgTypes[8]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -483,7 +522,7 @@ func (x *GetInvoiceResponse) String() string {
 func (*GetInvoiceResponse) ProtoMessage() {}
 
 func (x *GetInvoiceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[8]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -496,7 +535,7 @@ func (x *GetInvoiceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetInvoiceResponse.ProtoReflect.Descriptor instead.
 func (*GetInvoiceResponse) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{8}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{8}
 }
 
 type CancelInvoiceRequest struct {
@@ -507,7 +546,7 @@ type CancelInvoiceRequest struct {
 
 func (x *CancelInvoiceRequest) Reset() {
 	*x = CancelInvoiceRequest{}
-	mi := &file_v1_processing_service_proto_msgTypes[9]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -519,7 +558,7 @@ func (x *CancelInvoiceRequest) String() string {
 func (*CancelInvoiceRequest) ProtoMessage() {}
 
 func (x *CancelInvoiceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[9]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -532,7 +571,7 @@ func (x *CancelInvoiceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelInvoiceRequest.ProtoReflect.Descriptor instead.
 func (*CancelInvoiceRequest) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{9}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{9}
 }
 
 type CancelInvoiceResponse struct {
@@ -543,7 +582,7 @@ type CancelInvoiceResponse struct {
 
 func (x *CancelInvoiceResponse) Reset() {
 	*x = CancelInvoiceResponse{}
-	mi := &file_v1_processing_service_proto_msgTypes[10]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -555,7 +594,7 @@ func (x *CancelInvoiceResponse) String() string {
 func (*CancelInvoiceResponse) ProtoMessage() {}
 
 func (x *CancelInvoiceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_processing_service_proto_msgTypes[10]
+	mi := &file_processing_v1_processing_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -568,14 +607,58 @@ func (x *CancelInvoiceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelInvoiceResponse.ProtoReflect.Descriptor instead.
 func (*CancelInvoiceResponse) Descriptor() ([]byte, []int) {
-	return file_v1_processing_service_proto_rawDescGZIP(), []int{10}
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{10}
 }
 
-var File_v1_processing_service_proto protoreflect.FileDescriptor
+type AcquireResponse_Data struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AcquisitionId string                 `protobuf:"bytes,1,opt,name=acquisition_id,json=acquisitionId,proto3" json:"acquisition_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_v1_processing_service_proto_rawDesc = "" +
+func (x *AcquireResponse_Data) Reset() {
+	*x = AcquireResponse_Data{}
+	mi := &file_processing_v1_processing_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AcquireResponse_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AcquireResponse_Data) ProtoMessage() {}
+
+func (x *AcquireResponse_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_processing_v1_processing_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AcquireResponse_Data.ProtoReflect.Descriptor instead.
+func (*AcquireResponse_Data) Descriptor() ([]byte, []int) {
+	return file_processing_v1_processing_service_proto_rawDescGZIP(), []int{2, 0}
+}
+
+func (x *AcquireResponse_Data) GetAcquisitionId() string {
+	if x != nil {
+		return x.AcquisitionId
+	}
+	return ""
+}
+
+var File_processing_v1_processing_service_proto protoreflect.FileDescriptor
+
+const file_processing_v1_processing_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1bv1/processing_service.proto\x12\rprocessing.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"O\n" +
+	"&processing/v1/processing_service.proto\x12\rprocessing.v1\x1a\x1bbuf/validate/validate.proto\x1a\x12common/error.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"O\n" +
 	"\x05Money\x12\x14\n" +
 	"\x05units\x18\x01 \x01(\x04R\x05units\x12\x14\n" +
 	"\x05cents\x18\x02 \x01(\x04R\x05cents\x12\x1a\n" +
@@ -587,9 +670,13 @@ const file_v1_processing_service_proto_rawDesc = "" +
 	"\aservice\x18\x04 \x01(\tR\aservice\x12\x16\n" +
 	"\x06reason\x18\x05 \x01(\tR\x06reason\x129\n" +
 	"\n" +
-	"expires_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"@\n" +
-	"\x0fAcquireResponse\x12-\n" +
-	"\x0eacquisition_id\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\racquisitionId\"\x9b\x01\n" +
+	"expires_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xaf\x01\n" +
+	"\x0fAcquireResponse\x129\n" +
+	"\x04data\x18\x01 \x01(\v2#.processing.v1.AcquireResponse.DataH\x00R\x04data\x12\x1e\n" +
+	"\x05error\x18\x02 \x01(\v2\x06.ErrorH\x00R\x05error\x1a7\n" +
+	"\x04Data\x12/\n" +
+	"\x0eacquisition_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\racquisitionIdB\b\n" +
+	"\x06result\"\x9b\x01\n" +
 	"\x0fWithdrawRequest\x12)\n" +
 	"\vwithdraw_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\n" +
 	"withdrawId\x12/\n" +
@@ -597,11 +684,11 @@ const file_v1_processing_service_proto_rawDesc = "" +
 	"\x06amount\x18\x03 \x01(\v2\x14.processing.v1.MoneyR\x06amount\";\n" +
 	"\x10WithdrawResponse\x12'\n" +
 	"\vwithdraw_id\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\n" +
-	"withdrawId\"\x9e\x01\n" +
-	"\x14CreateInvoiceRequest\x12\x1d\n" +
+	"withdrawId\"\xb2\x01\n" +
+	"\x14CreateInvoiceRequest\x12'\n" +
 	"\n" +
-	"invoice_id\x18\x01 \x01(\tR\tinvoiceId\x12\x1b\n" +
-	"\twallet_id\x18\x02 \x01(\tR\bwalletId\x12\x16\n" +
+	"invoice_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\tinvoiceId\x12%\n" +
+	"\twallet_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\bwalletId\x12\x16\n" +
 	"\x06method\x18\x03 \x01(\tR\x06method\x12\x1a\n" +
 	"\bcurrency\x18\x04 \x01(\tR\bcurrency\x12\x16\n" +
 	"\x06amount\x18\x05 \x01(\x12R\x06amount\"\x17\n" +
@@ -616,23 +703,23 @@ const file_v1_processing_service_proto_rawDesc = "" +
 	"\rCreateInvoice\x12#.processing.v1.CreateInvoiceRequest\x1a$.processing.v1.CreateInvoiceResponse\x12Q\n" +
 	"\n" +
 	"GetInvoice\x12 .processing.v1.GetInvoiceRequest\x1a!.processing.v1.GetInvoiceResponse\x12Z\n" +
-	"\rCancelInvoice\x12#.processing.v1.CancelInvoiceRequest\x1a$.processing.v1.CancelInvoiceResponseB\xb7\x01\n" +
-	"\x11com.processing.v1B\x16ProcessingServiceProtoP\x01Z5github.com/burenotti/simchad-proto/go/v1;processingv1\xa2\x02\x03PXX\xaa\x02\rProcessing.V1\xca\x02\rProcessing\\V1\xe2\x02\x19Processing\\V1\\GPBMetadata\xea\x02\x0eProcessing::V1b\x06proto3"
+	"\rCancelInvoice\x12#.processing.v1.CancelInvoiceRequest\x1a$.processing.v1.CancelInvoiceResponseB\xc2\x01\n" +
+	"\x11com.processing.v1B\x16ProcessingServiceProtoP\x01Z@github.com/burenotti/simchad-proto/go/processing/v1;processingv1\xa2\x02\x03PXX\xaa\x02\rProcessing.V1\xca\x02\rProcessing\\V1\xe2\x02\x19Processing\\V1\\GPBMetadata\xea\x02\x0eProcessing::V1b\x06proto3"
 
 var (
-	file_v1_processing_service_proto_rawDescOnce sync.Once
-	file_v1_processing_service_proto_rawDescData []byte
+	file_processing_v1_processing_service_proto_rawDescOnce sync.Once
+	file_processing_v1_processing_service_proto_rawDescData []byte
 )
 
-func file_v1_processing_service_proto_rawDescGZIP() []byte {
-	file_v1_processing_service_proto_rawDescOnce.Do(func() {
-		file_v1_processing_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_v1_processing_service_proto_rawDesc), len(file_v1_processing_service_proto_rawDesc)))
+func file_processing_v1_processing_service_proto_rawDescGZIP() []byte {
+	file_processing_v1_processing_service_proto_rawDescOnce.Do(func() {
+		file_processing_v1_processing_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_processing_v1_processing_service_proto_rawDesc), len(file_processing_v1_processing_service_proto_rawDesc)))
 	})
-	return file_v1_processing_service_proto_rawDescData
+	return file_processing_v1_processing_service_proto_rawDescData
 }
 
-var file_v1_processing_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
-var file_v1_processing_service_proto_goTypes = []any{
+var file_processing_v1_processing_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_processing_v1_processing_service_proto_goTypes = []any{
 	(*Money)(nil),                 // 0: processing.v1.Money
 	(*AcquireRequest)(nil),        // 1: processing.v1.AcquireRequest
 	(*AcquireResponse)(nil),       // 2: processing.v1.AcquireResponse
@@ -644,49 +731,57 @@ var file_v1_processing_service_proto_goTypes = []any{
 	(*GetInvoiceResponse)(nil),    // 8: processing.v1.GetInvoiceResponse
 	(*CancelInvoiceRequest)(nil),  // 9: processing.v1.CancelInvoiceRequest
 	(*CancelInvoiceResponse)(nil), // 10: processing.v1.CancelInvoiceResponse
-	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
+	(*AcquireResponse_Data)(nil),  // 11: processing.v1.AcquireResponse.Data
+	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
+	(*common.Error)(nil),          // 13: Error
 }
-var file_v1_processing_service_proto_depIdxs = []int32{
+var file_processing_v1_processing_service_proto_depIdxs = []int32{
 	0,  // 0: processing.v1.AcquireRequest.amount:type_name -> processing.v1.Money
-	11, // 1: processing.v1.AcquireRequest.expires_at:type_name -> google.protobuf.Timestamp
-	0,  // 2: processing.v1.WithdrawRequest.amount:type_name -> processing.v1.Money
-	1,  // 3: processing.v1.ProcessingService.Acquire:input_type -> processing.v1.AcquireRequest
-	3,  // 4: processing.v1.ProcessingService.Withdraw:input_type -> processing.v1.WithdrawRequest
-	5,  // 5: processing.v1.ProcessingService.CreateInvoice:input_type -> processing.v1.CreateInvoiceRequest
-	7,  // 6: processing.v1.ProcessingService.GetInvoice:input_type -> processing.v1.GetInvoiceRequest
-	9,  // 7: processing.v1.ProcessingService.CancelInvoice:input_type -> processing.v1.CancelInvoiceRequest
-	2,  // 8: processing.v1.ProcessingService.Acquire:output_type -> processing.v1.AcquireResponse
-	4,  // 9: processing.v1.ProcessingService.Withdraw:output_type -> processing.v1.WithdrawResponse
-	6,  // 10: processing.v1.ProcessingService.CreateInvoice:output_type -> processing.v1.CreateInvoiceResponse
-	8,  // 11: processing.v1.ProcessingService.GetInvoice:output_type -> processing.v1.GetInvoiceResponse
-	10, // 12: processing.v1.ProcessingService.CancelInvoice:output_type -> processing.v1.CancelInvoiceResponse
-	8,  // [8:13] is the sub-list for method output_type
-	3,  // [3:8] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	12, // 1: processing.v1.AcquireRequest.expires_at:type_name -> google.protobuf.Timestamp
+	11, // 2: processing.v1.AcquireResponse.data:type_name -> processing.v1.AcquireResponse.Data
+	13, // 3: processing.v1.AcquireResponse.error:type_name -> Error
+	0,  // 4: processing.v1.WithdrawRequest.amount:type_name -> processing.v1.Money
+	1,  // 5: processing.v1.ProcessingService.Acquire:input_type -> processing.v1.AcquireRequest
+	3,  // 6: processing.v1.ProcessingService.Withdraw:input_type -> processing.v1.WithdrawRequest
+	5,  // 7: processing.v1.ProcessingService.CreateInvoice:input_type -> processing.v1.CreateInvoiceRequest
+	7,  // 8: processing.v1.ProcessingService.GetInvoice:input_type -> processing.v1.GetInvoiceRequest
+	9,  // 9: processing.v1.ProcessingService.CancelInvoice:input_type -> processing.v1.CancelInvoiceRequest
+	2,  // 10: processing.v1.ProcessingService.Acquire:output_type -> processing.v1.AcquireResponse
+	4,  // 11: processing.v1.ProcessingService.Withdraw:output_type -> processing.v1.WithdrawResponse
+	6,  // 12: processing.v1.ProcessingService.CreateInvoice:output_type -> processing.v1.CreateInvoiceResponse
+	8,  // 13: processing.v1.ProcessingService.GetInvoice:output_type -> processing.v1.GetInvoiceResponse
+	10, // 14: processing.v1.ProcessingService.CancelInvoice:output_type -> processing.v1.CancelInvoiceResponse
+	10, // [10:15] is the sub-list for method output_type
+	5,  // [5:10] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
-func init() { file_v1_processing_service_proto_init() }
-func file_v1_processing_service_proto_init() {
-	if File_v1_processing_service_proto != nil {
+func init() { file_processing_v1_processing_service_proto_init() }
+func file_processing_v1_processing_service_proto_init() {
+	if File_processing_v1_processing_service_proto != nil {
 		return
+	}
+	file_processing_v1_processing_service_proto_msgTypes[2].OneofWrappers = []any{
+		(*AcquireResponse_Data_)(nil),
+		(*AcquireResponse_Error)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_processing_service_proto_rawDesc), len(file_v1_processing_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_processing_v1_processing_service_proto_rawDesc), len(file_processing_v1_processing_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_v1_processing_service_proto_goTypes,
-		DependencyIndexes: file_v1_processing_service_proto_depIdxs,
-		MessageInfos:      file_v1_processing_service_proto_msgTypes,
+		GoTypes:           file_processing_v1_processing_service_proto_goTypes,
+		DependencyIndexes: file_processing_v1_processing_service_proto_depIdxs,
+		MessageInfos:      file_processing_v1_processing_service_proto_msgTypes,
 	}.Build()
-	File_v1_processing_service_proto = out.File
-	file_v1_processing_service_proto_goTypes = nil
-	file_v1_processing_service_proto_depIdxs = nil
+	File_processing_v1_processing_service_proto = out.File
+	file_processing_v1_processing_service_proto_goTypes = nil
+	file_processing_v1_processing_service_proto_depIdxs = nil
 }

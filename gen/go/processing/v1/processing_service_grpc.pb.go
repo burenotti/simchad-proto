@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: v1/processing_service.proto
+// source: processing/v1/processing_service.proto
 
 package processingv1
 
@@ -269,5 +269,5 @@ var ProcessingService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "v1/processing_service.proto",
+	Metadata: "processing/v1/processing_service.proto",
 }

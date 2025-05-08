@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package processing.v1;
+
+message Money {
+  uint64 units = 1;
+  uint64 cents = 2;
+  string currency = 3;
+}

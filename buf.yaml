@@ -7,6 +7,6 @@ breaking:
   use:
     - FILE
 modules:
-  - path: processing
+  - path: .
 deps:
   - buf.build/bufbuild/protovalidate
