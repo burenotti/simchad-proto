@@ -7,7 +7,6 @@
 package processingv1
 
 import (
-	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -86,13 +85,13 @@ var File_processing_v1_types_proto protoreflect.FileDescriptor
 
 const file_processing_v1_types_proto_rawDesc = "" +
 	"\n" +
-	"\x19processing/v1/types.proto\x12\rprocessing.v1\x1a\x1bbuf/validate/validate.proto\"O\n" +
+	"\x19processing/v1/types.proto\x12\rprocessing.v1\"O\n" +
 	"\x05Money\x12\x14\n" +
 	"\x05units\x18\x01 \x01(\x04R\x05units\x12\x14\n" +
 	"\x05cents\x18\x02 \x01(\x04R\x05cents\x12\x1a\n" +
-	"\bcurrency\x18\x03 \x01(\tR\bcurrencyB\xb6\x01\n" +
+	"\bcurrency\x18\x03 \x01(\tR\bcurrencyB\xba\x01\n" +
 	"\x11com.processing.v1B\n" +
-	"TypesProtoP\x01Z@github.com/burenotti/simchad-proto/go/processing/v1;processingv1\xa2\x02\x03PXX\xaa\x02\rProcessing.V1\xca\x02\rProcessing\\V1\xe2\x02\x19Processing\\V1\\GPBMetadata\xea\x02\x0eProcessing::V1b\x06proto3"
+	"TypesProtoP\x01ZDgithub.com/burenotti/simchad-proto/gen/go/processing/v1;processingv1\xa2\x02\x03PXX\xaa\x02\rProcessing.V1\xca\x02\rProcessing\\V1\xe2\x02\x19Processing\\V1\\GPBMetadata\xea\x02\x0eProcessing::V1b\x06proto3"
 
 var (
 	file_processing_v1_types_proto_rawDescOnce sync.Once

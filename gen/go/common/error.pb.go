@@ -80,8 +80,8 @@ const file_common_error_proto_rawDesc = "" +
 	"\x12common/error.proto\"3\n" +
 	"\x05Error\x12\x12\n" +
 	"\x04slug\x18\x01 \x01(\tR\x04slug\x12\x16\n" +
-	"\x06detail\x18\x02 \x01(\tR\x06detailB<B\n" +
-	"ErrorProtoP\x01Z,github.com/burenotti/simchad-proto/go/commonb\x06proto3"
+	"\x06detail\x18\x02 \x01(\tR\x06detailB@B\n" +
+	"ErrorProtoP\x01Z0github.com/burenotti/simchad-proto/gen/go/commonb\x06proto3"
 
 var (
 	file_common_error_proto_rawDescOnce sync.Once

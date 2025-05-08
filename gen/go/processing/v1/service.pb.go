@@ -8,7 +8,7 @@ package processingv1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	common "github.com/burenotti/simchad-proto/go/common"
+	common "github.com/burenotti/simchad-proto/gen/go/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -1145,8 +1145,8 @@ const file_processing_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"GetInvoice\x12 .processing.v1.GetInvoiceRequest\x1a!.processing.v1.GetInvoiceResponse\x12Z\n" +
 	"\rCancelInvoice\x12#.processing.v1.CancelInvoiceRequest\x1a$.processing.v1.CancelInvoiceResponse\x12W\n" +
-	"\fCreateWallet\x12\".processing.v1.CreateWalletRequest\x1a#.processing.v1.CreateWalletResponseB\xb8\x01\n" +
-	"\x11com.processing.v1B\fServiceProtoP\x01Z@github.com/burenotti/simchad-proto/go/processing/v1;processingv1\xa2\x02\x03PXX\xaa\x02\rProcessing.V1\xca\x02\rProcessing\\V1\xe2\x02\x19Processing\\V1\\GPBMetadata\xea\x02\x0eProcessing::V1b\x06proto3"
+	"\fCreateWallet\x12\".processing.v1.CreateWalletRequest\x1a#.processing.v1.CreateWalletResponseB\xbc\x01\n" +
+	"\x11com.processing.v1B\fServiceProtoP\x01ZDgithub.com/burenotti/simchad-proto/gen/go/processing/v1;processingv1\xa2\x02\x03PXX\xaa\x02\rProcessing.V1\xca\x02\rProcessing\\V1\xe2\x02\x19Processing\\V1\\GPBMetadata\xea\x02\x0eProcessing::V1b\x06proto3"
 
 var (
 	file_processing_v1_service_proto_rawDescOnce sync.Once
