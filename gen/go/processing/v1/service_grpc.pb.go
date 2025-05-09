@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ProcessingService_Acquire_FullMethodName       = "/processing.v1.ProcessingService/Acquire"
-	ProcessingService_Withdraw_FullMethodName      = "/processing.v1.ProcessingService/Withdraw"
-	ProcessingService_CreateInvoice_FullMethodName = "/processing.v1.ProcessingService/CreateInvoice"
-	ProcessingService_GetInvoice_FullMethodName    = "/processing.v1.ProcessingService/GetInvoice"
-	ProcessingService_CancelInvoice_FullMethodName = "/processing.v1.ProcessingService/CancelInvoice"
-	ProcessingService_CreateWallet_FullMethodName  = "/processing.v1.ProcessingService/CreateWallet"
+	ProcessingService_Acquire_FullMethodName           = "/processing.v1.ProcessingService/Acquire"
+	ProcessingService_Withdraw_FullMethodName          = "/processing.v1.ProcessingService/Withdraw"
+	ProcessingService_CreateInvoice_FullMethodName     = "/processing.v1.ProcessingService/CreateInvoice"
+	ProcessingService_GetInvoice_FullMethodName        = "/processing.v1.ProcessingService/GetInvoice"
+	ProcessingService_CancelInvoice_FullMethodName     = "/processing.v1.ProcessingService/CancelInvoice"
+	ProcessingService_CreateAccount_FullMethodName     = "/processing.v1.ProcessingService/CreateAccount"
+	ProcessingService_DeactivateAccount_FullMethodName = "/processing.v1.ProcessingService/DeactivateAccount"
 )
 
 // ProcessingServiceClient is the client API for ProcessingService service.
@@ -36,7 +37,8 @@ type ProcessingServiceClient interface {
 	CreateInvoice(ctx context.Context, in *CreateInvoiceRequest, opts ...grpc.CallOption) (*CreateInvoiceResponse, error)
 	GetInvoice(ctx context.Context, in *GetInvoiceRequest, opts ...grpc.CallOption) (*GetInvoiceResponse, error)
 	CancelInvoice(ctx context.Context, in *CancelInvoiceRequest, opts ...grpc.CallOption) (*CancelInvoiceResponse, error)
-	CreateWallet(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*CreateWalletResponse, error)
+	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
+	DeactivateAccount(ctx context.Context, in *DeactivateAccountRequest, opts ...grpc.CallOption) (*DeactivateAccountResponse, error)
 }
 
 type processingServiceClient struct {
@@ -97,10 +99,20 @@ func (c *processingServiceClient) CancelInvoice(ctx context.Context, in *CancelI
 	return out, nil
 }
 
-func (c *processingServiceClient) CreateWallet(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*CreateWalletResponse, error) {
+func (c *processingServiceClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateWalletResponse)
-	err := c.cc.Invoke(ctx, ProcessingService_CreateWallet_FullMethodName, in, out, cOpts...)
+	out := new(CreateAccountResponse)
+	err := c.cc.Invoke(ctx, ProcessingService_CreateAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *processingServiceClient) DeactivateAccount(ctx context.Context, in *DeactivateAccountRequest, opts ...grpc.CallOption) (*DeactivateAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeactivateAccountResponse)
+	err := c.cc.Invoke(ctx, ProcessingService_DeactivateAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +128,8 @@ type ProcessingServiceServer interface {
 	CreateInvoice(context.Context, *CreateInvoiceRequest) (*CreateInvoiceResponse, error)
 	GetInvoice(context.Context, *GetInvoiceRequest) (*GetInvoiceResponse, error)
 	CancelInvoice(context.Context, *CancelInvoiceRequest) (*CancelInvoiceResponse, error)
-	CreateWallet(context.Context, *CreateWalletRequest) (*CreateWalletResponse, error)
+	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
+	DeactivateAccount(context.Context, *DeactivateAccountRequest) (*DeactivateAccountResponse, error)
 	mustEmbedUnimplementedProcessingServiceServer()
 }
 
@@ -142,8 +155,11 @@ func (UnimplementedProcessingServiceServer) GetInvoice(context.Context, *GetInvo
 func (UnimplementedProcessingServiceServer) CancelInvoice(context.Context, *CancelInvoiceRequest) (*CancelInvoiceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelInvoice not implemented")
 }
-func (UnimplementedProcessingServiceServer) CreateWallet(context.Context, *CreateWalletRequest) (*CreateWalletResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateWallet not implemented")
+func (UnimplementedProcessingServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
+}
+func (UnimplementedProcessingServiceServer) DeactivateAccount(context.Context, *DeactivateAccountRequest) (*DeactivateAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeactivateAccount not implemented")
 }
 func (UnimplementedProcessingServiceServer) mustEmbedUnimplementedProcessingServiceServer() {}
 func (UnimplementedProcessingServiceServer) testEmbeddedByValue()                           {}
@@ -256,20 +272,38 @@ func _ProcessingService_CancelInvoice_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProcessingService_CreateWallet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateWalletRequest)
+func _ProcessingService_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProcessingServiceServer).CreateWallet(ctx, in)
+		return srv.(ProcessingServiceServer).CreateAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProcessingService_CreateWallet_FullMethodName,
+		FullMethod: ProcessingService_CreateAccount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProcessingServiceServer).CreateWallet(ctx, req.(*CreateWalletRequest))
+		return srv.(ProcessingServiceServer).CreateAccount(ctx, req.(*CreateAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProcessingService_DeactivateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeactivateAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProcessingServiceServer).DeactivateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProcessingService_DeactivateAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProcessingServiceServer).DeactivateAccount(ctx, req.(*DeactivateAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -302,8 +336,12 @@ var ProcessingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ProcessingService_CancelInvoice_Handler,
 		},
 		{
-			MethodName: "CreateWallet",
-			Handler:    _ProcessingService_CreateWallet_Handler,
+			MethodName: "CreateAccount",
+			Handler:    _ProcessingService_CreateAccount_Handler,
+		},
+		{
+			MethodName: "DeactivateAccount",
+			Handler:    _ProcessingService_DeactivateAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

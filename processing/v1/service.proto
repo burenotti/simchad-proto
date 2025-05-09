@@ -13,19 +13,34 @@ service ProcessingService {
   rpc CreateInvoice(CreateInvoiceRequest) returns (CreateInvoiceResponse);
   rpc GetInvoice(GetInvoiceRequest) returns (GetInvoiceResponse);
   rpc CancelInvoice(CancelInvoiceRequest) returns (CancelInvoiceResponse);
-  rpc CreateWallet(CreateWalletRequest) returns (CreateWalletResponse);
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+  rpc DeactivateAccount(DeactivateAccountRequest) returns (DeactivateAccountResponse);
 }
 
-message CreateWalletRequest {
-  string wallet_id = 2 [(buf.validate.field).string.uuid = true];
+message DeactivateAccountRequest {
+  string account_id = 1 [(buf.validate.field).string.uuid = true];
+  string reason = 2;
+}
+
+message DeactivateAccountResponse {
+  message Data {}
+
+  oneof result {
+    Data data = 1;
+    Error error = 2;
+  }
+}
+
+message CreateAccountRequest {
+  string account_id = 2 [(buf.validate.field).string.uuid = true];
   string customer_id = 3 [(buf.validate.field).string.uuid = true];
 }
 
-message CreateWalletResponse {}
+message CreateAccountResponse {}
 
 message AcquireRequest {
   string acquisition_id = 1 [(buf.validate.field).string.uuid = true];
-  string wallet_id = 2 [(buf.validate.field).string.uuid = true];
+  string account_id = 2 [(buf.validate.field).string.uuid = true];
   Money amount = 3;
   string service = 4;
   string reason = 5;
@@ -61,7 +76,7 @@ message WithdrawResponse {
 
 message CreateInvoiceRequest {
   string invoice_id = 1 [(buf.validate.field).string.uuid = true];
-  string wallet_id = 2 [(buf.validate.field).string.uuid = true];
+  string account_id = 2 [(buf.validate.field).string.uuid = true];
   string method = 3;
   string currency = 4;
   sint64 amount = 5;
