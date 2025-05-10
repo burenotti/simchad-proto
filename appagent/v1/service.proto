@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package appagent.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+service AppAgentService {
+  rpc Healthcheck(HealthcheckRequest) returns (HealthcheckResponse);
+  rpc CreateServer(CreateServerRequest) returns (CreateServerResponse);
+  rpc RestartServer(RestartServerRequest) returns (RestartServerResponse);
+  rpc ShutdownServer(ShutdownServerRequest) returns (ShutdownServerResponse);
+}
+
+message HealthcheckRequest {
+  string content = 1;
+}
+message HealthcheckResponse {
+  string content = 1;
+}
+
+message CreateServerRequest {
+  string server_id = 1 [(buf.validate.field).string.uuid = true];
+  string game = 2;
+  string run_type = 3;
+  optional google.protobuf.Timestamp startup_at = 4;
+  bytes configuration_tarball = 5;
+}
+
+message CreateServerResponse {}
+
+message RestartServerRequest {
+  string server_id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message RestartServerResponse {}
+
+message ShutdownServerRequest {
+  string server_id = 1 [(buf.validate.field).string.uuid = true];
+  string reason = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message ShutdownServerResponse {}
